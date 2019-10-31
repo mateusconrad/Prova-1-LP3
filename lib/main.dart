@@ -1,4 +1,4 @@
-import 'package:app_prova_1_11/mostraSalario.dart';
+import 'package:app_prova_1_11/mostraSalario.dart';-
 import 'package:flutter/material.dart';
 //import 'mostraConta.dart';
 
@@ -21,12 +21,17 @@ class _HomeState extends State<Home> {
   TextEditingController nomeFuncionario = TextEditingController();
   TextEditingController dependentesFuncionario = TextEditingController();
   TextEditingController salarioBrutoFuncionario = TextEditingController();
+  TextEditingController horas80 = TextEditingController();
+  TextEditingController horas100 = TextEditingController();
 
   var focusNome = new FocusNode();
   var focusDependentes = new FocusNode();
   var focusSalario = new FocusNode();
+  var focusHoras80 = new FocusNode();
+  var focusHoras100 = new FocusNode();
 
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -40,7 +45,6 @@ class _HomeState extends State<Home> {
           child: Column(
             children: <Widget>[
               Text("Cálculo IMC"),
-              Image.asset("images/download.png"),
               TextFormField(
                 //key: formkey,
                 focusNode: focusNome,
@@ -63,7 +67,7 @@ class _HomeState extends State<Home> {
               ), //nome
               TextFormField(
                 focusNode: focusDependentes,
-                autofocus: true,
+                //autofocus: true,
                 validator: (valor){
                   if (valor.isEmpty) {
                     FocusScope.of(context).requestFocus(focusDependentes);
@@ -81,7 +85,7 @@ class _HomeState extends State<Home> {
               ), // numero dependenets
               TextFormField(
                 focusNode: focusSalario,
-                autofocus: true,
+             //   autofocus: true,
                 validator: (valor){
                   if (valor.isEmpty) {
                     FocusScope.of(context).requestFocus(focusSalario);
@@ -97,6 +101,26 @@ class _HomeState extends State<Home> {
                     suffixIcon: Icon(Icons.attach_money)
                 ),
               ),
+              TextFormField(/////////////////////////////////////////////////////////////////////////////////////////
+                focusNode: focusHoras80,
+              //  autofocus: true,
+                controller: horas80,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                    labelText: "horas 50%",
+                    suffixIcon: Icon(Icons.access_time)
+                ),
+              ),
+              TextFormField(/////////////////////////////////////////////////////////////////////////////////////////
+                focusNode: focusHoras100,
+                //autofocus: true,
+                //controller: horas100,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                    labelText: "horas 100%",
+                    suffixIcon: Icon(Icons.access_time)
+                ),
+              ),
               SizedBox(height: 25,),
               RaisedButton(
                 child: Text("Calcular"),
@@ -110,6 +134,8 @@ class _HomeState extends State<Home> {
                           nomeFuncionario.text,
                           int.parse(dependentesFuncionario.text),
                           double.parse(salarioBrutoFuncionario.text),
+                          double.parse(horas80.text),
+                          double.parse(horas100.text),
                         ),
                     ));
                   }

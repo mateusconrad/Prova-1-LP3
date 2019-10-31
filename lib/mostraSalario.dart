@@ -4,7 +4,10 @@ class MostraSalario extends StatefulWidget {
   String nomeFuncionario;
   int dependentes;
   double salarioBruto;
-  MostraSalario(this.nomeFuncionario, this.dependentes, this.salarioBruto);
+  double horas80;
+  double horas100;
+  MostraSalario(this.nomeFuncionario, this.dependentes, this.salarioBruto,
+      this.horas80, this.horas100);
 
   @override
   _MostraSalarioState createState() => _MostraSalarioState();
@@ -19,6 +22,8 @@ class _MostraSalarioState extends State<MostraSalario> {
   double deducaoIr=0;
   double descontos=0;
   double valorDependente = 189.59;
+  double horas80;
+  double horas100;
 
   @override
   void initState(){
@@ -26,6 +31,7 @@ class _MostraSalarioState extends State<MostraSalario> {
     calcIr();
     calcTotalDescontos();
     calcSalarioLiquido();
+    calcHoras();
 
   }
 //. to sting as fixer
@@ -42,8 +48,11 @@ class _MostraSalarioState extends State<MostraSalario> {
             Text("Salário Bruto: " + widget.salarioBruto.toStringAsFixed(2)),
             Text("INSS: "+ inss.toString() + "\n Faixa inss: " + faixaInss.toStringAsFixed(2)),
             Text("IR: "+ ir.toString() + "\n Faixa ir: " + faixaIr.toStringAsFixed(2)),
+            Text("Horas 80%: " + horas80.toStringAsFixed(2)),
+            Text("Horas 100%: "+ horas100.toStringAsFixed(2)),
             Text("Total Descontos: " + descontos.toStringAsFixed(2)),
             Text("Salário Líquido: " + salarioLiquido.toStringAsFixed(2)),
+
           ],
         ),
       ),
@@ -108,4 +117,10 @@ class _MostraSalarioState extends State<MostraSalario> {
    }
   }
 
+  void calcHoras(){
+    double valorHora = widget.salarioBruto / 220; // horasmensais
+    horas80 = valorHora * widget.horas80 * 1.5;
+    horas100 = valorHora * widget.horas100* 2;
+
+  }
 }
