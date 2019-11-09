@@ -6,6 +6,11 @@ void main(){
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     home: Home(),
+    theme: ThemeData(
+      brightness: Brightness.dark,
+          primaryColor: Colors.redAccent
+//        textTheme: TextTheme()
+    )
   ));
 }
 
@@ -58,6 +63,7 @@ class _HomeState extends State<Home> {
       ),
     );
   }
+
   TextFormField fieldNome(BuildContext context) {
     return TextFormField(
       //key: formkey,

@@ -38,7 +38,6 @@ class _MostraSalarioState extends State<MostraSalario> {
     calcSalarioFamilia();
   }
 
-//. to sting as fixer
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,10 +75,8 @@ class _MostraSalarioState extends State<MostraSalario> {
                   faixaIr.toStringAsFixed(2),
               style: TextStyle(fontSize: 20),
             ),
-            Text(
-              "Salário Família: " + salarioFamilia.toStringAsFixed(2),
-                style: TextStyle(fontSize: 20)
-            ),
+            Text("Salário Família: " + salarioFamilia.toStringAsFixed(2),
+                style: TextStyle(fontSize: 20)),
             Text(
               "Horas 50%: " + valorHoras50.toStringAsFixed(2),
               style: TextStyle(fontSize: 20),
@@ -96,7 +93,6 @@ class _MostraSalarioState extends State<MostraSalario> {
               "Salário Líquido: " + salarioLiquido.toStringAsFixed(2),
               style: TextStyle(fontSize: 20),
             ),
-
           ],
         ),
       ),
@@ -135,8 +131,9 @@ class _MostraSalarioState extends State<MostraSalario> {
   void calcIr() {
     calcInss();
     percentualDeducaoIr();
-    if (((widget.dependentes == 0) && (faixaIr == 1)) || ((widget.dependentes >= 1) && (faixaIr == 1))) {
-        ir =0;
+    if (((widget.dependentes == 0) && (faixaIr == 1)) ||
+        ((widget.dependentes >= 1) && (faixaIr == 1))) {
+      ir = 0;
 //    } else if {ir =0}
     } else if (widget.dependentes > 0 && (faixaIr > 1)) {
       ir =
@@ -191,13 +188,3 @@ class _MostraSalarioState extends State<MostraSalario> {
     }
   }
 }
-
-/*
-Remuneração mensal Valor unitário da quota
-
-Até R$ 907,77
-  R$ 46,54
-De R$ 907,77 até  R$ 1.364,43
-  R$ 32,80
-Acima de R$ 1.364,43
-  Não tem direito à quota*/
