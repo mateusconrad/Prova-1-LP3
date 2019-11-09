@@ -7,14 +7,14 @@ void main(){
     debugShowCheckedModeBanner: false,
     home: Home(),
     theme: ThemeData(
-      brightness: Brightness.dark,
-          primaryColor: Colors.redAccent
-//        textTheme: TextTheme()
+      brightness: Brightness.light,
+      primaryColor: Colors.blueAccent,
     )
   ));
 }
 
 class Home extends StatefulWidget {
+
   @override
   _HomeState createState() => _HomeState();
 }
