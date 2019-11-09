@@ -7,13 +7,8 @@ class MostraSalario extends StatefulWidget {
   double horas50;
   double horas100;
 
-  MostraSalario(
-      this.nomeFuncionario,
-      this.dependentes,
-      this.salarioBruto,
-      this.horas50,
-      this.horas100
-  );
+  MostraSalario(this.nomeFuncionario, this.dependentes, this.salarioBruto,
+      this.horas50, this.horas100);
 
   @override
   _MostraSalarioState createState() => _MostraSalarioState();
@@ -31,38 +26,72 @@ class _MostraSalarioState extends State<MostraSalario> {
   double valorHoras50 = 0;
   double valorHoras100 = 0;
   double valorHora = 0;
-  double salarioFamilia =0;
+  double salarioFamilia = 0;
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     calcIr();
     calcTotalDescontos();
     calcSalarioLiquido();
     calcHoras();
-
+    calcSalarioFamilia();
   }
+
 //. to sting as fixer
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Calculo Salario"),
+      appBar: AppBar(
+        title: Text("Calculo Salario"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text("NOME: " + widget.nomeFuncionario, style: TextStyle(fontSize: 20),),
-            Text("Nº Dependentes: " + widget.dependentes.toStringAsFixed(2),style: TextStyle(fontSize: 20),),
-            Text("Salário Bruto: " + widget.salarioBruto.toStringAsFixed(2),style: TextStyle(fontSize: 20),),
-            Text("INSS: "+ inss.toStringAsFixed(2) + "\nFaixa inss: " + faixaInss.toStringAsFixed(2),style: TextStyle(fontSize: 20),),
-            Text("IR: "+ ir.toStringAsFixed(2) + "\n Faixa ir: " + faixaIr.toStringAsFixed(2),style: TextStyle(fontSize: 20),),
-            Text("Horas 50%: " + valorHoras50.toStringAsFixed(2),style: TextStyle(fontSize: 20),),
-            Text("Horas 100%: "+ valorHoras100.toStringAsFixed(2),style: TextStyle(fontSize: 20),),
-            Text("Total Descontos: " + descontos.toStringAsFixed(2),style: TextStyle(fontSize: 20),),
-            Text("Salário Líquido: " + salarioLiquido.toStringAsFixed(2),style: TextStyle(fontSize: 20),),
-
+            Text(
+              "NOME: " + widget.nomeFuncionario,
+              style: TextStyle(fontSize: 20),
+            ),
+            Text(
+              "Nº Dependentes: " + widget.dependentes.toStringAsFixed(2),
+              style: TextStyle(fontSize: 20),
+            ),
+            Text(
+              "Salário Bruto: " + widget.salarioBruto.toStringAsFixed(2),
+              style: TextStyle(fontSize: 20),
+            ),
+            Text(
+              "INSS: " +
+                  inss.toStringAsFixed(2) +
+                  "\nFaixa inss: " +
+                  faixaInss.toStringAsFixed(2),
+              style: TextStyle(fontSize: 20),
+            ),
+            Text(
+              "IR: " +
+                  ir.toStringAsFixed(2) +
+                  "\n Faixa ir: " +
+                  faixaIr.toStringAsFixed(2),
+              style: TextStyle(fontSize: 20),
+            ),
+            Text(
+              "Horas 50%: " + valorHoras50.toStringAsFixed(2),
+              style: TextStyle(fontSize: 20),
+            ),
+            Text(
+              "Horas 100%: " + valorHoras100.toStringAsFixed(2),
+              style: TextStyle(fontSize: 20),
+            ),
+            Text(
+              "Total Descontos: " + descontos.toStringAsFixed(2),
+              style: TextStyle(fontSize: 20),
+            ),
+            Text(
+              "Salário Líquido: " + salarioLiquido.toStringAsFixed(2),
+              style: TextStyle(fontSize: 20),
+            ),
           ],
         ),
       ),
@@ -80,82 +109,80 @@ class _MostraSalarioState extends State<MostraSalario> {
   }
 
   void calcInss() {
-    if (widget.salarioBruto <= 1757.81){
+    if (widget.salarioBruto <= 1757.81) {
       faixaInss = 8.00;
-      inss = widget.salarioBruto * (faixaInss/100);
-    }else if ((widget.salarioBruto > 1757.81) && (widget.salarioBruto <= 2919.72)){
+      inss = widget.salarioBruto * (faixaInss / 100);
+    } else if ((widget.salarioBruto > 1757.81) &&
+        (widget.salarioBruto <= 2919.72)) {
       faixaInss = 9.00;
-      inss = widget.salarioBruto * (faixaInss/100);
-    }else if ((widget.salarioBruto > 2919.72) && (widget.salarioBruto <= 5839.45)){
+      inss = widget.salarioBruto * (faixaInss / 100);
+    } else if ((widget.salarioBruto > 2919.72) &&
+        (widget.salarioBruto <= 5839.45)) {
       faixaInss = 11.00;
-      inss = widget.salarioBruto * (faixaInss/100);
-    }else{
+      inss = widget.salarioBruto * (faixaInss / 100);
+    } else {
       faixaInss = 11.00;
       inss = 5839.45 * 0.11;
     }
   }
-  void percentualDeducaoIr(){
+
+  void percentualDeducaoIr() {
     //
-    if ((widget.salarioBruto-inss) <= 1903.98){
+    if ((widget.salarioBruto - inss) <= 1903.98) {
       faixaIr = 1;
       deducaoIr = 0;
-    }else if (((widget.salarioBruto-inss) > 1903.98) && ((widget.salarioBruto-inss) <= 2826.65)){
+    } else if (((widget.salarioBruto - inss) > 1903.98) &&
+        ((widget.salarioBruto - inss) <= 2826.65)) {
       faixaIr = 7.5;
-      deducaoIr =142.80;
-    }else if (((widget.salarioBruto-inss) > 2826.65) && ((widget.salarioBruto-inss) <= 3751.05)){
+      deducaoIr = 142.80;
+    } else if (((widget.salarioBruto - inss) > 2826.65) &&
+        ((widget.salarioBruto - inss) <= 3751.05)) {
       faixaIr = 15.00;
       deducaoIr = 354.80;
-    }else if (((widget.salarioBruto-inss) > 3751.05) && ((widget.salarioBruto-inss) <= 4664.68)){
+    } else if (((widget.salarioBruto - inss) > 3751.05) &&
+        ((widget.salarioBruto - inss) <= 4664.68)) {
       faixaIr = 22.50;
       deducaoIr = 636.13;
-    }else{
+    } else {
       faixaIr = 27.50;
       deducaoIr = 869.36;
     }
-
   }
+
   void calcIr() {
     calcInss();
     percentualDeducaoIr();
-    if((widget.dependentes==0) && (faixaIr ==1)){
-
-    }else if ((widget.dependentes>0) && (faixaIr ==1)){
-
-    } else if(widget.dependentes>0 && (faixaIr >1)){
-      ir = (widget.salarioBruto - inss) - (valorDependente * widget.dependentes);
-      ir = ir * (faixaIr/100);  //
-      ir = ir -deducaoIr;
-    }
-    else {
+    if ((widget.dependentes == 0) && (faixaIr == 1)) {
+    } else if ((widget.dependentes > 0) && (faixaIr == 1)) {
+    } else if (widget.dependentes > 0 && (faixaIr > 1)) {
+      ir =
+          (widget.salarioBruto - inss) - (valorDependente * widget.dependentes);
+      ir = ir * (faixaIr / 100); //
+      ir = ir - deducaoIr;
+    } else {
       ir = (widget.salarioBruto - inss);
-      ir = ir * (faixaIr/100);  //
+      ir = ir * (faixaIr / 100); //
       ir = ir - deducaoIr;
     }
-
   }
 
-  void calcHoras(){
+  void calcHoras() {
     valorHora = widget.salarioBruto / 220; // horasmensais
-    valorHoras50 = widget.horas50;
-    valorHoras50 = valorHora * widget.horas50 * 1.5;
-    valorHoras100 = widget.horas100;
-    valorHoras100 = valorHora * widget.horas100* 2;
+    valorHoras50 = valorHora * widget.horas50 * 1.5; //calculo das horas com 50%
+    valorHoras100 =
+        valorHora * widget.horas100 * 2; //calculo das horas com 100%
   }
 
-  void calcSalarioFamilia(){
-
-    if (widget.salarioBruto + valorHoras50 + valorHoras100 <= 907.77){
-    salarioFamilia = 46.54;
-    } else if((widget.salarioBruto + valorHoras50 + valorHoras100 >907.77)
-        && (widget.salarioBruto + valorHoras50 + valorHoras100 <= 1364.43))
-      {
-        salarioFamilia = 32.80;
-      }else{
-      salarioFamilia = print("nao tem direto");//////adaçlsdkkasjdjahsdoçhasd
+  void calcSalarioFamilia() {
+    if (widget.salarioBruto + valorHoras50 + valorHoras100 <= 907.77) {
+      salarioFamilia = 46.54;
+    } else if ((widget.salarioBruto + valorHoras50 + valorHoras100 > 907.77) &&
+        (widget.salarioBruto + valorHoras50 + valorHoras100 <= 1364.43)) {
+      salarioFamilia = 32.80;
+    } else {
+      salarioFamilia = 0;
     }
   }
-
-
 }
 
 /*
