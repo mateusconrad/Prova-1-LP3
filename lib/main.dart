@@ -43,6 +43,7 @@ class _HomeState extends State<Home> {
         child: Form(
           key: formkey,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
               fieldNome(context), //nome
               fieldDependentes(context), // numero dependenets
@@ -127,6 +128,14 @@ class _HomeState extends State<Home> {
               focusNode: focusHoras50,
             //  autofocus: true,
               controller: horas50,
+              validator: (valor){
+                if (valor.isEmpty) {
+                  FocusScope.of(context).requestFocus(focusNome);
+                  return "Informe a quantidade de Horas!";
+                } else {
+                  return null;
+                }
+              },
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                   labelText: "horas 50%",
@@ -140,6 +149,15 @@ class _HomeState extends State<Home> {
       focusNode: focusHoras100,
       //autofocus: true,
       controller: horas100,
+      validator: (valor){
+        if (valor.isEmpty) {
+          FocusScope.of(context).requestFocus(focusNome);
+          return "Informe a quantidade de Horas!";
+        } else {
+          return null;
+        }
+      },
+
       keyboardType: TextInputType.number,
       decoration: InputDecoration(
           labelText: "horas 100%",

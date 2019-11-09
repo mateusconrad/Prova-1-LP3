@@ -72,9 +72,13 @@ class _MostraSalarioState extends State<MostraSalario> {
             Text(
               "IR: " +
                   ir.toStringAsFixed(2) +
-                  "\n Faixa ir: " +
+                  "\nFaixa ir: " +
                   faixaIr.toStringAsFixed(2),
               style: TextStyle(fontSize: 20),
+            ),
+            Text(
+              "Salário Família: " + salarioFamilia.toStringAsFixed(2),
+                style: TextStyle(fontSize: 20)
             ),
             Text(
               "Horas 50%: " + valorHoras50.toStringAsFixed(2),
@@ -92,6 +96,7 @@ class _MostraSalarioState extends State<MostraSalario> {
               "Salário Líquido: " + salarioLiquido.toStringAsFixed(2),
               style: TextStyle(fontSize: 20),
             ),
+
           ],
         ),
       ),
@@ -101,7 +106,8 @@ class _MostraSalarioState extends State<MostraSalario> {
   void calcSalarioLiquido() {
     calcIr();
     calcTotalDescontos();
-    salarioLiquido = (widget.salarioBruto - descontos);
+    calcSalarioFamilia();
+    salarioLiquido = (widget.salarioBruto - descontos + salarioFamilia);
   }
 
   void calcTotalDescontos() {
