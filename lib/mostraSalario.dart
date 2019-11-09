@@ -126,6 +126,24 @@ class _MostraSalarioState extends State<MostraSalario> {
     }
   }
 
+  void calcIr() {
+    calcInss();
+    percentualDeducaoIr();
+    if (((widget.dependentes == 0) && (faixaIr == 1)) || ((widget.dependentes >= 1) && (faixaIr == 1))) {
+        ir =0;
+//    } else if {ir =0}
+    } else if (widget.dependentes > 0 && (faixaIr > 1)) {
+      ir =
+          (widget.salarioBruto - inss) - (valorDependente * widget.dependentes);
+      ir = ir * (faixaIr / 100); //
+      ir = ir - deducaoIr;
+    } else {
+      ir = (widget.salarioBruto - inss);
+      ir = ir * (faixaIr / 100); //
+      ir = ir - deducaoIr;
+    }
+  }
+
   void percentualDeducaoIr() {
     //
     if ((widget.salarioBruto - inss) <= 1903.98) {
@@ -146,23 +164,6 @@ class _MostraSalarioState extends State<MostraSalario> {
     } else {
       faixaIr = 27.50;
       deducaoIr = 869.36;
-    }
-  }
-
-  void calcIr() {
-    calcInss();
-    percentualDeducaoIr();
-    if ((widget.dependentes == 0) && (faixaIr == 1)) {
-    } else if ((widget.dependentes > 0) && (faixaIr == 1)) {
-    } else if (widget.dependentes > 0 && (faixaIr > 1)) {
-      ir =
-          (widget.salarioBruto - inss) - (valorDependente * widget.dependentes);
-      ir = ir * (faixaIr / 100); //
-      ir = ir - deducaoIr;
-    } else {
-      ir = (widget.salarioBruto - inss);
-      ir = ir * (faixaIr / 100); //
-      ir = ir - deducaoIr;
     }
   }
 
