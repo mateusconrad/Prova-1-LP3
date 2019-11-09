@@ -1,4 +1,4 @@
-import 'package:app_prova_1_11/mostraSalario.dart';-
+import 'package:app_prova_1_11/mostraSalario.dart';
 import 'package:flutter/material.dart';
 //import 'mostraConta.dart';
 
@@ -21,13 +21,13 @@ class _HomeState extends State<Home> {
   TextEditingController nomeFuncionario = TextEditingController();
   TextEditingController dependentesFuncionario = TextEditingController();
   TextEditingController salarioBrutoFuncionario = TextEditingController();
-  TextEditingController horas80 = TextEditingController();
+  TextEditingController horas50 = TextEditingController();
   TextEditingController horas100 = TextEditingController();
 
   var focusNome = new FocusNode();
   var focusDependentes = new FocusNode();
   var focusSalario = new FocusNode();
-  var focusHoras80 = new FocusNode();
+  var focusHoras50 = new FocusNode();
   var focusHoras100 = new FocusNode();
 
   @override
@@ -35,7 +35,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Prova 1 - LP3"),
+        title: Text("Folha de Pagamento"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -44,114 +44,142 @@ class _HomeState extends State<Home> {
           key: formkey,
           child: Column(
             children: <Widget>[
-              Text("Cálculo IMC"),
-              TextFormField(
-                //key: formkey,
-                focusNode: focusNome,
-                autofocus: true,
-                textInputAction: TextInputAction.next,
-                validator: (valor){
-                  if (valor.isEmpty) {
-                    FocusScope.of(context).requestFocus(focusNome);
-                    return "Informe o nome!";
-                  } else {
-                    return null;
-                  }
-                },
-                controller: nomeFuncionario,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  suffixIcon: Icon(Icons.person),
-                  labelText: "Nome",
-                ),
-              ), //nome
-              TextFormField(
-                focusNode: focusDependentes,
-                //autofocus: true,
-                validator: (valor){
-                  if (valor.isEmpty) {
-                    FocusScope.of(context).requestFocus(focusDependentes);
-                    return "Informe o número de dependentes!";
-                  } else {
-                    return null;
-                  }
-                },
-                controller: dependentesFuncionario,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    labelText: "Dependentes",
-                    suffixIcon: Icon(Icons.people)
-                ),
-              ), // numero dependenets
-              TextFormField(
-                focusNode: focusSalario,
-             //   autofocus: true,
-                validator: (valor){
-                  if (valor.isEmpty) {
-                    FocusScope.of(context).requestFocus(focusSalario);
-                    return "Informe o Salário Bruto!";
-                  } else {
-                    return null;
-                  }
-                },
-                controller: salarioBrutoFuncionario,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    labelText: "Salário Bruto",
-                    suffixIcon: Icon(Icons.attach_money)
-                ),
-              ),
-              TextFormField(/////////////////////////////////////////////////////////////////////////////////////////
-                focusNode: focusHoras80,
-              //  autofocus: true,
-                controller: horas80,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    labelText: "horas 50%",
-                    suffixIcon: Icon(Icons.access_time)
-                ),
-              ),
-              TextFormField(/////////////////////////////////////////////////////////////////////////////////////////
-                focusNode: focusHoras100,
-                //autofocus: true,
-                //controller: horas100,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                    labelText: "horas 100%",
-                    suffixIcon: Icon(Icons.access_time)
-                ),
-              ),
+              fieldNome(context), //nome
+              fieldDependentes(context), // numero dependenets
+              fieldSalarioBruto(context),
+              fieldHoras50(context),
+              fieldHoras100(context),
               SizedBox(height: 25,),
-              RaisedButton(
-                child: Text("Calcular"),
-                color: Colors.blue,
-                textColor: Colors.white,
-                onPressed: () {
-                  if (formkey.currentState.validate()){
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context)=>
-                        MostraSalario(
-                          nomeFuncionario.text,
-                          int.parse(dependentesFuncionario.text),
-                          double.parse(salarioBrutoFuncionario.text),
-                          double.parse(horas80.text),
-                          double.parse(horas100.text),
-                        ),
-                    ));
-                  }
-                }
-              ),
+              buttonCalculaSalario(context),
             ],
           ),
         ),
       ),
     );
   }
+  TextFormField fieldNome(BuildContext context) {
+    return TextFormField(
+      //key: formkey,
+      focusNode: focusNome,
+      autofocus: true,
+      textInputAction: TextInputAction.next,
+      validator: (valor){
+        if (valor.isEmpty) {
+          FocusScope.of(context).requestFocus(focusNome);
+          return "Informe o nome!";
+        } else {
+          return null;
+        }
+      },
+      controller: nomeFuncionario,
+      keyboardType: TextInputType.text,
+      decoration: InputDecoration(
+        suffixIcon: Icon(Icons.person),
+        labelText: "Nome",
+      ),
+    );
+  }
+
+  TextFormField fieldDependentes(BuildContext context) {
+    return TextFormField(
+      focusNode: focusDependentes,
+      //autofocus: true,
+      validator: (valor){
+        if (valor.isEmpty) {
+          FocusScope.of(context).requestFocus(focusDependentes);
+          return "Informe o número de dependentes!";
+        } else {
+          return null;
+        }
+      },
+      controller: dependentesFuncionario,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+          labelText: "Dependentes",
+          suffixIcon: Icon(Icons.people)
+      ),
+    );
+  }
+
+  TextFormField fieldSalarioBruto(BuildContext context) {
+    return TextFormField(
+      focusNode: focusSalario,
+      //   autofocus: true,
+      validator: (valor){
+        if (valor.isEmpty) {
+          FocusScope.of(context).requestFocus(focusSalario);
+          return "Informe o Salário Bruto!";
+        } else {
+          return null;
+        }
+      },
+      controller: salarioBrutoFuncionario,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+          labelText: "Salário Bruto",
+          suffixIcon: Icon(Icons.attach_money)
+      ),
+    );
+  }
+
+  TextFormField fieldHoras50(BuildContext context) {
+    return TextFormField(/////////////////////////////////////////////////////////////////////////////////////////
+              focusNode: focusHoras50,
+            //  autofocus: true,
+              controller: horas50,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                  labelText: "horas 50%",
+                  suffixIcon: Icon(Icons.access_time)
+              ),
+            );
+  }
+
+  TextFormField fieldHoras100(BuildContext context) {
+    return TextFormField(/////////////////////////////////////////////////////////////////////////////////////////
+      focusNode: focusHoras100,
+      //autofocus: true,
+      controller: horas100,
+      keyboardType: TextInputType.number,
+      decoration: InputDecoration(
+          labelText: "horas 100%",
+          suffixIcon: Icon(Icons.access_time)
+      ),
+    );
+  }
+
+  RaisedButton buttonCalculaSalario(BuildContext context) {
+    return RaisedButton(
+        child: Text("Calcular"),
+        color: Colors.blue,
+        textColor: Colors.white,
+        onPressed: () {
+          if (formkey.currentState.validate()){
+            Navigator.push(context, MaterialPageRoute(
+              builder: (context)=>
+                  MostraSalario(
+                    nomeFuncionario.text,
+                    double.parse(dependentesFuncionario.text),
+                    double.parse(salarioBrutoFuncionario.text),
+                    double.parse(horas50.text),
+                    double.parse(horas100.text),
+                  ),
+            ));
+          }
+          print("======================");
+          print("======================");
+          print(dependentesFuncionario.text);
+          print(salarioBrutoFuncionario.text);
+          print(horas50.text);
+          print(horas100.text);
+          print("======================");
+          print("======================");
+        }
+    );
+  }
+
+
+
+
 
 }
-
-
-
-//pubspec.yml
-
-//assets:      images/   kakaka.jpg

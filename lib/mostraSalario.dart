@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 
 class MostraSalario extends StatefulWidget {
   String nomeFuncionario;
-  int dependentes;
+  double dependentes;
   double salarioBruto;
-  double horas80;
+  double horas50;
   double horas100;
-  MostraSalario(this.nomeFuncionario, this.dependentes, this.salarioBruto,
-      this.horas80, this.horas100);
+
+  MostraSalario(
+      this.nomeFuncionario,
+      this.dependentes,
+      this.salarioBruto,
+      this.horas50,
+      this.horas100
+  );
 
   @override
   _MostraSalarioState createState() => _MostraSalarioState();
@@ -17,13 +23,15 @@ class _MostraSalarioState extends State<MostraSalario> {
   double salarioLiquido = 0;
   double inss = 0; //porcentagem inss
   double ir = 0; //porcentagem imposto de renda
-  double faixaInss=0;
-  double faixaIr=0;
-  double deducaoIr=0;
-  double descontos=0;
+  double faixaInss = 0;
+  double faixaIr = 0;
+  double deducaoIr = 0;
+  double descontos = 0;
   double valorDependente = 189.59;
-  double horas80;
-  double horas100;
+  double valorHoras50 = 0;
+  double valorHoras100 = 0;
+  double valorHora = 0;
+  double salarioFamilia =0;
 
   @override
   void initState(){
@@ -42,16 +50,18 @@ class _MostraSalarioState extends State<MostraSalario> {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text("NOME: " + widget.nomeFuncionario),
-            Text("Nº Dependentes: " + widget.dependentes.toStringAsFixed(2)),
-            Text("Salário Bruto: " + widget.salarioBruto.toStringAsFixed(2)),
-            Text("INSS: "+ inss.toString() + "\n Faixa inss: " + faixaInss.toStringAsFixed(2)),
-            Text("IR: "+ ir.toString() + "\n Faixa ir: " + faixaIr.toStringAsFixed(2)),
-            Text("Horas 80%: " + horas80.toStringAsFixed(2)),
-            Text("Horas 100%: "+ horas100.toStringAsFixed(2)),
-            Text("Total Descontos: " + descontos.toStringAsFixed(2)),
-            Text("Salário Líquido: " + salarioLiquido.toStringAsFixed(2)),
+            Text("NOME: " + widget.nomeFuncionario, style: TextStyle(fontSize: 20),),
+            Text("Nº Dependentes: " + widget.dependentes.toStringAsFixed(2),style: TextStyle(fontSize: 20),),
+            Text("Salário Bruto: " + widget.salarioBruto.toStringAsFixed(2),style: TextStyle(fontSize: 20),),
+            Text("INSS: "+ inss.toStringAsFixed(2) + "\nFaixa inss: " + faixaInss.toStringAsFixed(2),style: TextStyle(fontSize: 20),),
+            Text("IR: "+ ir.toStringAsFixed(2) + "\n Faixa ir: " + faixaIr.toStringAsFixed(2),style: TextStyle(fontSize: 20),),
+            Text("Horas 50%: " + valorHoras50.toStringAsFixed(2),style: TextStyle(fontSize: 20),),
+            Text("Horas 100%: "+ valorHoras100.toStringAsFixed(2),style: TextStyle(fontSize: 20),),
+            Text("Total Descontos: " + descontos.toStringAsFixed(2),style: TextStyle(fontSize: 20),),
+            Text("Salário Líquido: " + salarioLiquido.toStringAsFixed(2),style: TextStyle(fontSize: 20),),
 
           ],
         ),
@@ -85,8 +95,11 @@ class _MostraSalarioState extends State<MostraSalario> {
     }
   }
   void percentualDeducaoIr(){
-
-    if (((widget.salarioBruto-inss) > 1903.98) && ((widget.salarioBruto-inss) <= 2826.65)){
+    //
+    if ((widget.salarioBruto-inss) <= 1903.98){
+      faixaIr = 1;
+      deducaoIr = 0;
+    }else if (((widget.salarioBruto-inss) > 1903.98) && ((widget.salarioBruto-inss) <= 2826.65)){
       faixaIr = 7.5;
       deducaoIr =142.80;
     }else if (((widget.salarioBruto-inss) > 2826.65) && ((widget.salarioBruto-inss) <= 3751.05)){
@@ -104,23 +117,53 @@ class _MostraSalarioState extends State<MostraSalario> {
   void calcIr() {
     calcInss();
     percentualDeducaoIr();
-    if (widget.dependentes>0) {
-      //ir = ((widget.salarioBruto - inss) - (valorDependente * widget.dependentes) * (faixaIr/100)-deducaoIr);
-       ir = (widget.salarioBruto - inss) - (valorDependente * widget.dependentes);
-       ir = ir * (faixaIr/100);  //
-       ir = ir -deducaoIr;
-    } else {
+    if((widget.dependentes==0) && (faixaIr ==1)){
+
+    }else if ((widget.dependentes>0) && (faixaIr ==1)){
+
+    } else if(widget.dependentes>0 && (faixaIr >1)){
+      ir = (widget.salarioBruto - inss) - (valorDependente * widget.dependentes);
+      ir = ir * (faixaIr/100);  //
+      ir = ir -deducaoIr;
+    }
+    else {
       ir = (widget.salarioBruto - inss);
       ir = ir * (faixaIr/100);  //
       ir = ir - deducaoIr;
+    }
 
-   }
   }
 
   void calcHoras(){
-    double valorHora = widget.salarioBruto / 220; // horasmensais
-    horas80 = valorHora * widget.horas80 * 1.5;
-    horas100 = valorHora * widget.horas100* 2;
-
+    valorHora = widget.salarioBruto / 220; // horasmensais
+    valorHoras50 = widget.horas50;
+    valorHoras50 = valorHora * widget.horas50 * 1.5;
+    valorHoras100 = widget.horas100;
+    valorHoras100 = valorHora * widget.horas100* 2;
   }
+
+  void calcSalarioFamilia(){
+
+    if (widget.salarioBruto + valorHoras50 + valorHoras100 <= 907.77){
+    salarioFamilia = 46.54;
+    } else if((widget.salarioBruto + valorHoras50 + valorHoras100 >907.77)
+        && (widget.salarioBruto + valorHoras50 + valorHoras100 <= 1364.43))
+      {
+        salarioFamilia = 32.80;
+      }else{
+      salarioFamilia = print("nao tem direto");//////adaçlsdkkasjdjahsdoçhasd
+    }
+  }
+
+
 }
+
+/*
+Remuneração mensal Valor unitário da quota
+
+Até R$ 907,77
+  R$ 46,54
+De R$ 907,77 até  R$ 1.364,43
+  R$ 32,80
+Acima de R$ 1.364,43
+  Não tem direito à quota*/
