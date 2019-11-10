@@ -190,14 +190,6 @@ class _HomeState extends State<Home> {
                   ),
             ));
           }
-          print("======================");
-          print("======================");
-          print(dependentesFuncionario.text);
-          print(salarioBrutoFuncionario.text);
-          print(horas50.text);
-          print(horas100.text);
-          print("======================");
-          print("======================");
         }
     );
   }
