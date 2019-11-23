@@ -29,7 +29,8 @@ class _MostraSalarioState extends State<MostraSalario> {
   double salarioFamilia = 0;
 
   @override
-  void initState() {
+  void initState()
+  {
     super.initState();
     calcIr();
     calcTotalDescontos();
@@ -43,56 +44,70 @@ class _MostraSalarioState extends State<MostraSalario> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Calculo Salario"),
+        centerTitle: true,
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            SizedBox(height: 12,),
             Text(
-              "NOME: " + widget.nomeFuncionario,
-              style: TextStyle(fontSize: 20),
+              "Nome: " + widget.nomeFuncionario,
+              style: TextStyle(fontSize: 20,),
             ),
-            Text(
+            Divider( thickness: 2,),
+
+            if (widget.dependentes == 0) Text(
               "Nº Dependentes: " + widget.dependentes.toStringAsFixed(2),
               style: TextStyle(fontSize: 20),
-            ),
+            ),if (widget.dependentes == 0) Divider(),
+
             Text(
               "Salário Bruto: " + widget.salarioBruto.toStringAsFixed(2),
               style: TextStyle(fontSize: 20),
-            ),
+            ),Divider(),
+
             Text(
-              "INSS: " +
-                  inss.toStringAsFixed(2) +
+              "INSS: " +inss.toStringAsFixed(2) +
                   "\nFaixa inss: " +
                   faixaInss.toStringAsFixed(2),
               style: TextStyle(fontSize: 20),
-            ),
-            Text(
+            ),Divider(),
+
+            if (ir != 0) Text(
               "IR: " +
                   ir.toStringAsFixed(2) +
                   "\nFaixa ir: " +
                   faixaIr.toStringAsFixed(2),
               style: TextStyle(fontSize: 20),
             ),
-            Text("Salário Família: " + salarioFamilia.toStringAsFixed(2),
+            if (ir != 0) Divider(),
+
+            if (salarioFamilia != 0) Text("Salário Família: " + salarioFamilia.toStringAsFixed(2),
                 style: TextStyle(fontSize: 20)),
-            Text(
+            if (salarioFamilia != 0) Divider(),
+
+            if (valorHoras50!=0) Text(
               "Horas 50%: " + valorHoras50.toStringAsFixed(2),
               style: TextStyle(fontSize: 20),
-            ),
-            Text(
+            ), if (valorHoras50!=0) Divider(),
+
+
+            if (valorHoras100!=0) Text(
               "Horas 100%: " + valorHoras100.toStringAsFixed(2),
               style: TextStyle(fontSize: 20),
-            ),
+            ),if (valorHoras100!=0) Divider(),
+
             Text(
               "Total Descontos: " + descontos.toStringAsFixed(2),
               style: TextStyle(fontSize: 20),
-            ),
+            ),Divider(),
+
             Text(
               "Salário Líquido: " + salarioLiquido.toStringAsFixed(2),
               style: TextStyle(fontSize: 20),
-            ),
+            ),Divider(),
           ],
         ),
       ),

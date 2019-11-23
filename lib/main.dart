@@ -57,6 +57,20 @@ class _HomeState extends State<Home> {
               fieldHoras100(context),
               SizedBox(height: 25,),
               buttonCalculaSalario(context),
+              RaisedButton(
+                child: Text("Limpar Campos"),
+                textColor: Colors.white,
+                color: Colors.lightBlue,
+                onPressed: (){
+                  setState(() {
+                    nomeFuncionario.clear();
+                    dependentesFuncionario.clear();
+                    salarioBrutoFuncionario.clear();
+                    horas50.clear();
+                    horas100.clear();
+                  });
+                },
+              )
             ],
           ),
         ),
